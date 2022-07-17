@@ -13,7 +13,7 @@ class JobInfo {
             this.company = this.findText(data.text, "at", "\n");
 
         } catch (error) {
-            console.log(`erroe occured in constructor: ${error} (for the logger use)`);
+            console.log(`erroe occured in constructor: ${error}`); //(logger)
         }
     };
 
@@ -35,7 +35,6 @@ class JobInfo {
     }
 
     save = async () =>{
-        //לא צריך פעמיים טרי וקאצ מספיק ההוא בקונסטרקטור
         try {
 
             const oldApply = await TechJobs.findByCredentials(this.link);
@@ -47,7 +46,7 @@ class JobInfo {
                     return true;
                 } 
                 
-                console.log("they are still searching (for the logger)");
+                console.log("they are still searching"); //(logger)
                 return;
 
             }
@@ -64,7 +63,7 @@ class JobInfo {
             }
 
         } catch (error) {
-            console.log(`erroe occured: ${error} (for the logger use)`);
+            console.log(`erroe occured: ${error}`); //(logger)
         }
 
         return;
