@@ -8,9 +8,9 @@ class JobInfo {
     constructor(data){
         try {
             this.link = data.entities[1].url;
-            this.job = this.findText(data.text, 0, "at");
-            this.location = this.findText(data.text, "Location", "\n");
-            this.company = this.findText(data.text, "at", "\n");
+            this.job = data.text.match(/.*(?= at)/gi)[0]
+            this.location = data.text.match(/Location.*/gi)[0]
+            this.company = data.text.match(/at \w+/gi)[0]
 
         } catch (error) {
             console.log(`erroe occured in constructor: ${error}`); //(logger)
@@ -22,24 +22,11 @@ class JobInfo {
     company;
     link;
 
-    findText = (data, keyStart, keyEnd) =>{
-        let indexOfProp = keyStart? data.search(keyStart) : keyStart;
-
-        if(indexOfProp !== -1){
-            let subStr = data.slice(indexOfProp, data.length);
-            let subStringEndIndex = subStr.search(keyEnd);
-
-            return subStr.substring(0, subStringEndIndex);
-        }
-        else return;
-    }
 
     save = async () =>{
         try {
-
             const oldApply = await TechJobs.findByCredentials(this.link);
-
-
+            
             if (oldApply) {
                 if (oldApply.applyHistory[oldApply.applyHistory.length-1].date.getTime() - new Date().getTime() > FIVE_MONTH_IN_MILLISECONDS) {
                     await oldApply.save()

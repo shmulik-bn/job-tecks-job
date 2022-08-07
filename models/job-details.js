@@ -1,4 +1,4 @@
-const keyWords = ["Full Stack","Fullstack", "Front End", "Front-End", "Frontend", "Back end", "backend"];
+const keywords = (/(Software)|(Full.?Stack)|(Front.?End)|(Back.?End)/gi);
 const mongoose = require('mongoose')
 
  mongoose.connect(process.env.MONGO_CONNECTION, {
@@ -42,4 +42,5 @@ const userSchema = new mongoose.Schema({
   })
 
   const TechJobs = new mongoose.model("techJobs", userSchema);
-  module.exports = { TechJobs, keyWords };
+  module.exports = { TechJobs, keywords };
+
